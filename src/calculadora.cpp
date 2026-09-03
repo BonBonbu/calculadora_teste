@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 void caracteres_invisiveis(char array[]);
 int verifica_parenteses(char conta[], int inicio);
@@ -12,19 +13,20 @@ double adicao(double numero1, double numero2);
 
 int main()
 {
-    int i = 0, j = 0, parenteses_inicial = 0, parenteses_final = 0, contador = 0;
+    int i = 0, j = 0, parenteses_inicial = 0, parenteses_final = 0, contador = 0, k1 = 0, k2 = 0;
     char conta[101], caracteres1[50], caracteres2[50], operador;
     double numeros1, numeros2;
-
-    caracteres_invisiveis(conta);
 
     printf("Conta a ser efetuada: ");
     //sem espacos pois nao tem em calculadoras
     //limite de 100 caracteres
     fgets(conta, 101, stdin);
-    //armazena a conta e termina em /0
+    //armazena a conta e termina em \0
 
-    while(conta[i] != '\0' && conta[i] != '\n')
+    conta[strcspn(conta, "\n")] = '\0';
+    //para remover \n caso a pessoa aperte enter
+
+    while(conta[i] != '\0')
     {
         //prioridade (raiz e potencia)
 
@@ -37,7 +39,10 @@ int main()
             parenteses_final = verifica_parenteses(conta, i);
             //vai ler desde o inicial ate fechar em 0 pois achou o final
 
-            j = parenteses_inicial;
+            j = parenteses_inicial + 1;
+
+            memset(caracteres1, 0, sizeof(caracteres1));
+            memset(caracteres2, 0, sizeof(caracteres2));
 
             while(j < parenteses_final)
             {
@@ -45,10 +50,22 @@ int main()
                 {
                     //se o caractere for numerico ou um . armazena na array
                     caracteres1[j] = conta[j];
+
+                    if(k1 < 49)
+                    {
+                        caracteres1[k1] = conta[j];
+                        k1++;
+                    }
                 }
                 else if((isdigit(conta[j]) || conta[j] == '.') && contador == 1)
                 {
                     caracteres2[j] = conta[j];
+
+                    if(k2 < 49)
+                    {
+                        caracteres2[k2] = conta[j];
+                        k2++;
+                    }
                 }
                 else
                 {
@@ -56,38 +73,32 @@ int main()
                     contador++;
                 }
                 
+                
                 j++;
             }
 
+            caracteres1[k1] = '\0';
+            caracteres2[k2] = '\0';
+            
             numeros1 = atof(caracteres1);
             numeros2 = atof(caracteres2);
 
 
-            if(parenteses_final == NAN)
+            if(parenteses_final == -1)
             {
                 printf("Parenteses nao fechado\n");
-                return printf("Erro\n");
+                printf("Erro\n");
+
+                return 1;
             }
 
+            contador = 0;
         }
 
         i++;
     }
 
     return 0;
-}
-
-void caracteres_invisiveis(char array[])
-{
-    //para que nao tenha espacos vazios
-
-    int i = 0;
-
-    while(array[i] != '\0')
-    {
-        array[i] = '#';
-        i++;
-    }
 }
 
 int verifica_parenteses(char conta[], int i)
