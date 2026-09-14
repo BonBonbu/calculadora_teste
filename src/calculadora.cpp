@@ -5,15 +5,17 @@
 #include <ctype.h>
 #include <string.h>
 
-void caracteres_invisiveis(char array[]);
-int verifica_parenteses(char conta[], int inicio);
+//ele ira percorrer a cadeia de char e nao podera modifica-la
+const char *ponteiro;
+
+void pula_espacos();
+double verifica_parenteses();
 double multiplicacao(double numero1, double numero2);
 double divisao(double numero, double divisor);
 double adicao(double numero1, double numero2);
 
 int main()
 {
-    int i = 0, j = 0, parenteses_inicial = 0, parenteses_final = 0, contador = 0, k1 = 0, k2 = 0;
     char conta[101], caracteres1[50], caracteres2[50], operador;
     double numeros1, numeros2;
 
@@ -25,108 +27,32 @@ int main()
 
     conta[strcspn(conta, "\n")] = '\0';
     //para remover \n caso a pessoa aperte enter
-
-    while(conta[i] != '\0')
-    {
-        //prioridade (raiz e potencia)
-
-        //10+2*(4+10)
-        //prioridade dos parenteses
-
-        if(conta[i] == '(')
-        {
-            parenteses_inicial = i;
-            parenteses_final = verifica_parenteses(conta, i);
-            //vai ler desde o inicial ate fechar em 0 pois achou o final
-
-            j = parenteses_inicial + 1;
-
-            memset(caracteres1, 0, sizeof(caracteres1));
-            memset(caracteres2, 0, sizeof(caracteres2));
-
-            while(j < parenteses_final)
-            {
-                if((isdigit(conta[j]) || conta[j] == '.') && contador == 0)
-                {
-                    //se o caractere for numerico ou um . armazena na array
-                    caracteres1[j] = conta[j];
-
-                    if(k1 < 49)
-                    {
-                        caracteres1[k1] = conta[j];
-                        k1++;
-                    }
-                }
-                else if((isdigit(conta[j]) || conta[j] == '.') && contador == 1)
-                {
-                    caracteres2[j] = conta[j];
-
-                    if(k2 < 49)
-                    {
-                        caracteres2[k2] = conta[j];
-                        k2++;
-                    }
-                }
-                else
-                {
-                    operador = conta[j];
-                    contador++;
-                }
-                
-                
-                j++;
-            }
-
-            caracteres1[k1] = '\0';
-            caracteres2[k2] = '\0';
-            
-            numeros1 = atof(caracteres1);
-            numeros2 = atof(caracteres2);
-
-
-            if(parenteses_final == -1)
-            {
-                printf("Parenteses nao fechado\n");
-                printf("Erro\n");
-
-                return 1;
-            }
-
-            contador = 0;
-        }
-
-        i++;
-    }
+    //main encurtada para deixar a ordem de prioridade melhor e mais editavel com chamadas de funcao
+    
+    ponteiro = conta;
 
     return 0;
 }
 
-int verifica_parenteses(char conta[], int i)
+void pula_espacos()
 {
-    int parenteses_contagem = 1;
-    i++;
-
-    while(conta[i] != '\0')
+    while(isspace(*ponteiro))
     {
-        if(conta[i] == '(')
-        {
-            parenteses_contagem++;
-        }
-
-        if(conta[i] == ')')
-        {
-            parenteses_contagem--;
-
-            if(parenteses_contagem == 0)
-            {
-                return i;
-            }
-        }
-
-        i++;
+        //se onde o ponteiro aponta eh ' ', o ponteiro avanca
+        ponteiro++;
     }
+}
 
-    return -1; //erro
+double verifica_parenteses()
+{
+    pula_espacos();
+
+    if(*ponteiro == '(')
+    {
+        ponteiro++;
+    }
+    
+    //criar o que resolva o que tem aqui dentro
 }
 
 double multiplicacao(double numero1, double numero2)
