@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="ico.ico" type="image/x-icon">
+    <title>CALCULADORA CIENTIFICA</title>
+
+</head>
+
+    <link rel="stylesheet" href="teste.css">
+
+ <div class="nomes">
+<h1>
+    Calculadora feita por:
+</h1>
+<h2>Yasmin, Ana, Gaby e Kaua</h2></div> 
+<img src="il_300x300.6748185023_7vw1.webp" alt="Gatinho fofo" class="gato">
+
+    <input type="text" id="tela" readonly>
+    <div class="tela">
+  
+
+
+    <div class="botoes">
+        <button onclick="adicionar('7')">7</button>
+        <button onclick="adicionar('8')">8</button>
+        <button onclick="adicionar('9')">9</button>
+        <button onclick="adicionar('/')">÷</button>
+
+        <button onclick="adicionar('4')">4</button>
+        <button onclick="adicionar('5')">5</button>
+        <button onclick="adicionar('6')">6</button>
+        <button onclick="adicionar('*')">×</button>
+
+        <button onclick="adicionar('1')">1</button>
+        <button onclick="adicionar('2')">2</button>
+        <button onclick="adicionar('3')">3</button>
+        <button onclick="adicionar('-')">−</button>
+
+        <button onclick="adicionar('0')">0</button>
+        <button onclick="adicionar('.')">.</button>
+        <button onclick="calcular()">=</button>
+        <button onclick="adicionar('+')">+</button>
+    </div>
+
+</div>
+    <script>
+        let expressao = "";
+
+        function adicionar(valor) {
+            expressao += valor;
+            document.getElementById("tela").value = expressao;
+        }
+    </script>
+    <p>
+    <a href="https://unitau.br/" target="_blank" rel="external">
+        Universidade de Taubaté
+    </a>
+</p>
+<script src="script.js"></script>
+</body>
+</html>
